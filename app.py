@@ -83,6 +83,39 @@ class ImageProcessorApp:
 
         self.show_image(processed)
 
+    def resize_image(self):
+        if self.image is None: return
+        width = simpledialog.askinteger("Размер", "Ширина:")
+        height = simpledialog.askinteger("Размер", "Высота:")
+        if width and height:
+            resized = cv2.resize(self.image, (width, height))
+            self.show_image(resized)
+        pass
+
+    def adjust_brightness(self):
+        if self.image is None: return
+        value = simpledialog.askinteger("Яркость", "Значение (0-100):", minvalue=0, maxvalue=100)
+        if value is not None:
+            hsv = cv2.cvtColor(self.image, cv2.COLOR_BGR2HSV)
+            hsv = hsv.astype("float32")
+            hsv[:, :, 2] *= (1 - value / 100)
+            hsv = np.clip(hsv, 0, 255).astype("uint8")
+            adjusted = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
+            self.show_image(adjusted)
+        pass
+
+    def draw_rectangle(self):
+        if self.image is None: return
+        x1 = simpledialog.askinteger("Координаты", "X1:")
+        y1 = simpledialog.askinteger("Координаты", "Y1:")
+        x2 = simpledialog.askinteger("Координаты", "X2:")
+        y2 = simpledialog.askinteger("Координаты", "Y2:")
+        if all([x1, y1, x2, y2]):
+            img_copy = self.image.copy()
+            cv2.rectangle(img_copy, (x1, y1), (x2, y2), (255, 0, 0), 2)
+            self.show_image(img_copy)
+        pass
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = ImageProcessorApp(root)
