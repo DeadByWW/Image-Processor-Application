@@ -31,7 +31,7 @@ git log
 
 1. Клонируйте репозиторий:
 ```bash
-git clone https://github.com/("тут типа мой репозиторий").git
+git clone https://github.com/DeadByWW/Image-Processor-Application
 cd ваш-репозиторий
 ```
 
